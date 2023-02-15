@@ -1,0 +1,41 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy Azure Function
+
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: demo-function # set this to your application's name, it has to be unique
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'   # set this to the path to your web app project, defaults to the repository root
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub action'
+      uses: actions/checkout@v2
+
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        toolchain: stable
+        target: x86_64-unknown-linux-musl
+        override: true
+
+    - name: Release build
+      uses: actions-rs/cargo@v1
+      with:
+        command: build
+        args: --release --release --target=x86_64-unknown-linux-musl
+
+    - name: Copy handler to parent directory
+      shell: bash
+      run: cp target/x86_64-unknown-linux-musl/release/handler .
+
+    - name: 'Run Azure Functions action'
+      uses: Azure/functions-action@v1
+      with:
+        app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
+        package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
+        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}

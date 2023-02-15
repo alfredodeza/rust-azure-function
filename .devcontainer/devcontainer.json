@@ -12,6 +12,9 @@
 				"ms-vscode.vscode-node-azure-pack"
 			]
 		}
+	},
+	"features": {
+		"ghcr.io/jlaundry/devcontainer-features/azure-functions-core-tools:1": {}
 	}
 
 	// Use 'mounts' to make the cargo cache persistent in a Docker Volume.

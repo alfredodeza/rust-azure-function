@@ -2,5 +2,9 @@
     "azureFunctions.deploySubpath": ".",
     "azureFunctions.projectLanguage": "Custom",
     "azureFunctions.projectRuntime": "~4",
-    "debug.internalConsoleOptions": "neverOpen"
+    "debug.internalConsoleOptions": "neverOpen",
+    "yaml.schemas": {
+        "file:///Users/alfredodeza/.vscode/extensions/docsmsft.docs-yaml-0.2.9/out/yaml-support/toc.schema.json": "/toc\\.yml/i",
+        "https://json.schemastore.org/github-workflow.json": "file:///Users/alfredodeza/code/rust-azure-function/.github/workflows/deploy.yml"
+    }
 }

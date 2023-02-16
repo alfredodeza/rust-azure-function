@@ -23,3 +23,12 @@ curl --header "Content-Type: application/json" \
   --data '{"text":"example string"}' \
   http://localhost:7071/api/token
 ```
+
+## Creating the Azure Function in the Azure Portal
+Use a unique name for the function app. This name will be used in the GitHub Actions workflow to deploy the application to Azure Functions. The name must be unique across all Azure Functions.
+
+For the _Runtime stack_ select _Custom Handler_ and for the _version_ select _custom_ as well.
+
+Select _Linux_ as the _Operating System_ and any region like _East US_.
+
+Once the function app is created, click on _Get Publish Profile_ and add it as a secret to the GitHub repository. The name of the secret should be `AZURE_FUNCTIONAPP_PUBLISH_PROFILE` and the value should be the content of the downloaded file.

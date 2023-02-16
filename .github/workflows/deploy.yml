@@ -16,6 +16,12 @@ jobs:
     - name: 'Checkout GitHub action'
       uses: actions/checkout@v2
 
+    #- name: Install with RustUp
+    #  shell: bash
+    #  run: curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Install musl
+      run: sudo apt-get install -y --no-install-recommends musl-tools
+      
     - name: Install Rust
       uses: actions-rs/toolchain@v1
       with:
@@ -23,9 +29,6 @@ jobs:
         target: x86_64-unknown-linux-musl
         override: true
         default: true
-
-    - name: Install musl
-      run: sudo apt-get install -y --no-install-recommends musl-tools
 
     - name: Release build
       uses: actions-rs/cargo@v1

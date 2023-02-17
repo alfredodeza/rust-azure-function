@@ -42,14 +42,17 @@ jobs:
     needs: build
 
     steps:
+      - name: Install Azure Core Tools
+        shell: bash
+        run: |
+         wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
+         sudo dpkg -i packages-microsoft-prod.deb
+         
       - name: Azure Login
         uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
  
       - name: Deploy to Azure Functions
-        uses: azure/CLI@v1
-        with:
-          inlineScript: |
-            az config set extension.use_dynamic_install=yes_without_prompt
-            az functionapp deploy --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ env.AZURE_GROUP_NAME }} --src-path handler
+        shell: bash
+        run: func azure functionapp publish ${{ env.AZURE_FUNCTIONAPP_NAME }}

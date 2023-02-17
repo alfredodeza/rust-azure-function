@@ -37,31 +37,27 @@ jobs:
       shell: bash
       run: cp target/x86_64-unknown-linux-musl/release/handler .
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
 
-    steps:
-      - name: Setup the repository
-        shell: bash
-        run: |
+    - name: Setup the repository
+      shell: bash
+      run: |
          curl https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > microsoft.gpg
          sudo mv microsoft.gpg /etc/apt/trusted.gpg.d/microsoft.gpg
          sudo sh -c 'echo "deb [arch=amd64] https://packages.microsoft.com/repos/microsoft-ubuntu-$(lsb_release -cs)-prod $(lsb_release -cs) main" > /etc/apt/sources.list.d/dotnetdev.list'
          
-      - name: Install Azure Core Tools
-        shell: bash
-        run: |
+    - name: Install Azure Core Tools
+      shell: bash
+      run: |
           sudo apt-get update
           sudo apt-get install azure-functions-core-tools-4
 #         wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
 #         sudo dpkg -i packages-microsoft-prod.deb
          
-      - name: Azure Login
-        uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
  
-      - name: Deploy to Azure Functions
-        shell: bash
-        run: func azure functionapp publish ${{ env.AZURE_FUNCTIONAPP_NAME }}
+    - name: Deploy to Azure Functions
+      shell: bash
+      run: func azure functionapp publish ${{ env.AZURE_FUNCTIONAPP_NAME }}

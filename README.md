@@ -32,3 +32,12 @@ For the _Runtime stack_ select _Custom Handler_ and for the _version_ select _cu
 Select _Linux_ as the _Operating System_ and any region like _East US_.
 
 Once the function app is created, click on _Get Publish Profile_ and add it as a secret to the GitHub repository. The name of the secret should be `AZURE_FUNCTIONAPP_PUBLISH_PROFILE` and the value should be the content of the downloaded file.
+
+## Deploying with VSCode
+Although you can deploy directlty from VSCode, you might encounter the following error when you try to re-deploy using a different method:
+
+```
+Error:   When request Azure resource at PublishContent, zipDepoy : WEBSITE_RUN_FROM_PACKAGE in your function app is set to an URL. Please remove WEBSITE_RUN_FROM_PACKAGE app setting from your function app.
+```
+
+This setting was created by the VSCode extension, so you must go to the portal, then to the function, next to Configuration, and then Application Settings, and delete `WEBSITE_RUN_FROM_PACKAGE`

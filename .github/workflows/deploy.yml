@@ -16,25 +16,35 @@ jobs:
     - name: 'Checkout GitHub action'
       uses: actions/checkout@v2
 
-    #- name: Install with RustUp
-    #  shell: bash
-    #  run: curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Install with RustUp
+      shell: bash
+      run: curl https://sh.rustup.rs -sSf | sh -s -- -y
     - name: Install musl
       run: sudo apt-get install -y --no-install-recommends musl-tools
-      
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        toolchain: stable
-        target: x86_64-unknown-linux-musl
-        override: true
-        default: true
 
-    - name: Release build
-      uses: actions-rs/cargo@v1
-      with:
-        command: build
-        args: --release --target=x86_64-unknown-linux-musl
+    - name: Add Target
+      shell: bash
+      run: rustup target add x86_64-unknown-linux-musl
+
+    - name: Build release
+      shell: bash
+      run: |
+       cargo build --release --target=x86_64-unknown-linux-musl
+       cp target/x86_64-unknown-linux-musl/release/handler .
+
+#    - name: Install Rust
+#      uses: actions-rs/toolchain@v1
+#      with:
+#        toolchain: stable
+#        target: x86_64-unknown-linux-musl
+#        override: true
+#        default: true
+
+#    - name: Release build
+#      uses: actions-rs/cargo@v1
+#      with:
+#        command: build
+#        args: --release --target=x86_64-unknown-linux-musl
 
     - name: Copy handler to parent directory
       shell: bash

@@ -60,4 +60,4 @@ jobs:
  
     - name: Deploy to Azure Functions
       shell: bash
-      run: func azure functionapp publish ${{ env.AZURE_FUNCTIONAPP_NAME }}
+      run: func azure functionapp publish --custom ${{ env.AZURE_FUNCTIONAPP_NAME }}

@@ -1,0 +1,55 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Deploy Azure Function
+
+on:
+  workflow_dispatch:
+
+env:
+  AZURE_FUNCTIONAPP_NAME: demo-rust-alfredo # set this to your application's name, it has to be unique
+	AZURE_GROUP_NAME: demo-function
+  AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'   # set this to the path to your web app project, defaults to the repository root
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'Checkout GitHub action'
+      uses: actions/checkout@v2
+
+    - name: Install with RustUp
+      shell: bash
+      run: curl https://sh.rustup.rs -sSf | sh -s -- -y
+    - name: Install musl
+      run: sudo apt-get install -y --no-install-recommends musl-tools
+
+    - name: Add Target
+      shell: bash
+      run: rustup target add x86_64-unknown-linux-musl
+
+    - name: Build release
+      shell: bash
+      run: |
+       cargo build --release --target=x86_64-unknown-linux-musl
+       cp target/x86_64-unknown-linux-musl/release/handler .
+
+    - name: Copy handler to parent directory
+      shell: bash
+      run: cp target/x86_64-unknown-linux-musl/release/handler .
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Azure Login
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+ 
+      - name: Deploy to Azure Functions
+        uses: azure/CLI@v1
+        with:
+          inlineScript: |
+            az config set extension.use_dynamic_install=yes_without_prompt
+            az functionapp deploy --name ${{ env.AZURE_FUNCTIONAPP_NAME }} --resource-group ${{ env.AZURE_GROUP_NAME }}

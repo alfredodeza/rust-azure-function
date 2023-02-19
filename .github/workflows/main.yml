@@ -20,23 +20,21 @@ jobs:
     - name: Install with RustUp
       shell: bash
       run: curl https://sh.rustup.rs -sSf | sh -s -- -y
+
     - name: Install musl
       run: sudo apt-get install -y --no-install-recommends musl-tools
 
-    - name: Add Target
+    - name: Add Linux MUSL Target
       shell: bash
       run: rustup target add x86_64-unknown-linux-musl
 
     - name: Build release
       shell: bash
-      run: |
-       cargo build --release --target=x86_64-unknown-linux-musl
-       cp target/x86_64-unknown-linux-musl/release/handler .
+      run: cargo build --release --target=x86_64-unknown-linux-musl
 
     - name: Copy handler to parent directory
       shell: bash
       run: cp target/x86_64-unknown-linux-musl/release/handler .
-
 
     - name: Setup the repository
       shell: bash
@@ -50,8 +48,6 @@ jobs:
       run: |
           sudo apt-get update
           sudo apt-get install azure-functions-core-tools-4
-#         wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb
-#         sudo dpkg -i packages-microsoft-prod.deb
          
     - name: Azure Login
       uses: azure/login@v1

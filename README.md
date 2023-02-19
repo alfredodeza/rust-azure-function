@@ -68,4 +68,4 @@ Copy those contents into the actions secrets as `AZURE_CREDENTIALS`. This secret
 ### Caveats
 Currently, Rust is not a _first class citizen_ in Azure Functions. This means that the deployment process is a bit more involved than other languages. If creating the function scaffolding in Visual Studio Code, you must select _"custom"_ for the runtime, whereas other languages have their own category.
 
-Deploying using the GitHub Actions for Functions _does not work_ at the moment. The workflow will succeed but the function will timeout when invoked with an HTTP 500. The GitHub workflow uses instead the Azure Core Tools to deploy the function with the `func` command. This is a workaround until the GitHub Actions for Functions is fixed.
+Deploying using the GitHub Actions for Functions _does not work_ at the moment. The workflow will succeed but the function will timeout when invoked with an HTTP 500. The GitHub workflow uses instead the Azure Core Tools to deploy the function with the `func` command. This is a workaround until the GitHub Actions for Functions [is fixed](https://github.com/Azure/functions-action/issues/169).

@@ -36,10 +36,14 @@ jobs:
       shell: bash
       run: cp target/x86_64-unknown-linux-musl/release/handler .
 
+    - name: Azure Login
+      uses: azure/login@v1
+      with:
+         creds: ${{ secrets.AZURE_CREDENTIALS }}
+
     - name: 'Run Azure Functions action'
       uses: Azure/functions-action@v1
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
         package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-        publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
         respect-funcignore: true

@@ -36,6 +36,7 @@ jobs:
       shell: bash
       run: cp target/x86_64-unknown-linux-musl/release/handler .
 
+    # See https://github.com/Azure/azure-functions-core-tools#linux
     - name: Setup the repository
       shell: bash
       run: |

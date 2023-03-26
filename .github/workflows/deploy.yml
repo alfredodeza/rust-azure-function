@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 env:
-  AZURE_FUNCTIONAPP_NAME: demo-rust-alfredo # set this to your application's name, it has to be unique
+  AZURE_FUNCTIONAPP_NAME: demo-rust-alfredo-2 # set this to your application's name, it has to be unique
   AZURE_FUNCTIONAPP_PACKAGE_PATH: '.'   # set this to the path to your web app project, defaults to the repository root
 
 jobs:
